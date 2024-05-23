@@ -1,4 +1,4 @@
-package api_model
+package web
 
 type ApiResult struct {
 	//API请求后，业务处理成功true,异常false,同时msg为异常消息

@@ -1,4 +1,4 @@
-module myapi-dev-support
+module github.com/jchaw2023/myapi-dev-support
 
 go 1.21.6
 

@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/go-playground/validator/v10"
+	"github.com/jchaw2023/myapi-dev-support/dev-support/models/api_model"
 	"github.com/kataras/iris/v12"
-	"myapi-dev-support/dev-support/models/api_model"
 	"reflect"
 	"strings"
 )

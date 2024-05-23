@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"github.com/go-playground/validator/v10"
-	"github.com/jchaw2023/myapi-dev-support/dev-support/models/api_model"
+	"github.com/jchaw2023/myapi-dev-support/dev-support/models/web"
 	"github.com/kataras/iris/v12"
 	"reflect"
 	"strings"
@@ -19,7 +19,7 @@ func (c *MyBaseController) HandleParam(ctx iris.Context, param any) bool {
 	}
 	return true
 }
-func (c *MyBaseController) HandleParamError(ctx iris.Context, param any) *api_model.ApiResult {
+func (c *MyBaseController) HandleParamError(ctx iris.Context, param any) *web.ApiResult {
 	err := ctx.ReadJSON(param)
 	if paramErrorResult := ParamFault(ctx, err, param); paramErrorResult != nil {
 		return paramErrorResult
@@ -35,10 +35,10 @@ func (c *MyBaseController) PanicParamError(ctx iris.Context, param any) {
 	}
 }
 
-func FailParam(err *ParamError) *api_model.ApiResult {
+func FailParam(err *ParamError) *web.ApiResult {
 	if err != nil {
 		outMsg := "请求错误"
-		r := &api_model.ApiResult{
+		r := &web.ApiResult{
 			Success: false,
 			Data:    err,
 			Msg:     outMsg,
@@ -63,7 +63,7 @@ func (e *ApiParamErr) Error() string {
 	return e.ParamError.Error
 }
 
-func ParamFault(ctx iris.Context, err error, param interface{}) *api_model.ApiResult {
+func ParamFault(ctx iris.Context, err error, param interface{}) *web.ApiResult {
 	paramErr := WrapParamError(ctx, err, param)
 	return FailParam(paramErr)
 }

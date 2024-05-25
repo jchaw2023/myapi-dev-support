@@ -11,6 +11,7 @@ import (
 type MyBaseController struct {
 }
 
+// @Description	处理请求参数
 func (c *MyBaseController) HandleParam(ctx iris.Context, param any) bool {
 	err := ctx.ReadJSON(param)
 	if paramErrorResult := ParamFault(ctx, err, param); paramErrorResult != nil {
@@ -19,6 +20,8 @@ func (c *MyBaseController) HandleParam(ctx iris.Context, param any) bool {
 	}
 	return true
 }
+
+// @Description	处理请求参数
 func (c *MyBaseController) HandleParamError(ctx iris.Context, param any) *web.ApiResult {
 	err := ctx.ReadJSON(param)
 	if paramErrorResult := ParamFault(ctx, err, param); paramErrorResult != nil {
@@ -26,7 +29,6 @@ func (c *MyBaseController) HandleParamError(ctx iris.Context, param any) *web.Ap
 	}
 	return nil
 }
-
 func (c *MyBaseController) PanicParamError(ctx iris.Context, param any) {
 	err := ctx.ReadJSON(param)
 	paramErr := WrapParamError(ctx, err, param)
@@ -76,10 +78,18 @@ func WrapParamError(ctx iris.Context, err error, param interface{}) (paramError 
 				_t = _t.Elem()
 			}
 			field, _ := _t.FieldByName(validationErr.StructField())
-			errJsonParam := field.Tag.Get("json")
-			message := field.Tag.Get("message")
+			errJsonParam := strings.TrimSpace(field.Tag.Get("json"))
+			message := strings.TrimSpace(field.Tag.Get("message"))
 			if errJsonParam == "" {
 				errJsonParam = validationErr.StructField()
+			} else {
+				jsonParamParts := strings.Split(errJsonParam, ",")
+				if len(jsonParamParts) > 0 {
+					errJsonParam = strings.TrimSpace(jsonParamParts[0])
+				}
+				if errJsonParam == "" {
+					errJsonParam = validationErr.StructField()
+				}
 			}
 			paramError = &ParamError{
 				Param: errJsonParam,

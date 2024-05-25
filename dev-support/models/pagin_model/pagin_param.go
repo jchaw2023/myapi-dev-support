@@ -2,9 +2,9 @@ package pagin_model
 
 // swagger:model
 type PaginParam struct {
-	//分页参数页索引（1）
+	// 分页参数页索引（1）
 	Page int `json:"page"  validate:"min=1,required"  message:"起始页面大小为1"`
-	//分页参数页面大小（1）
+	// 分页参数页面大小（1）
 	Limit int `json:"limit"  validate:"min=1,required" message:"页面大小最小为1"`
 }
 

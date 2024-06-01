@@ -17,12 +17,17 @@ func (c *ConfigBase) GetEtcdEndpoints(env string) []string {
 	endpointsConfig := os.Getenv("etcd.endpoints")
 	if endpointsConfig == "" {
 		props, err := properties.LoadFile("./etc/etcd-"+env+".properties", properties.ISO_8859_1)
-		if err == nil {
+		if err != nil || props.Len() == 0 {
+			if err != nil {
+				log.Fatalln(err)
+			}
+			props, err = properties.LoadFile("./etcd-"+env+".properties", properties.ISO_8859_1)
+		}
+		if props.Len() > 0 {
 			endpoints := props.GetString("etcd.endpoints", "")
 			return strings.Split(endpoints, ";")
-		} else {
-			return nil
 		}
+		return nil
 	} else {
 		return strings.Split(endpointsConfig, ";")
 	}

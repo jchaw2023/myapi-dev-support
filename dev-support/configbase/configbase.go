@@ -19,9 +19,12 @@ func (c *ConfigBase) GetEtcdEndpoints(env string) []string {
 		props, err := properties.LoadFile("./etc/etcd-"+env+".properties", properties.ISO_8859_1)
 		if err != nil || props.Len() == 0 {
 			if err != nil {
-				log.Fatalln(err)
+				log.Fatalf("./etc/etcd-"+env+".properties==>%#v", err)
 			}
 			props, err = properties.LoadFile("./etcd-"+env+".properties", properties.ISO_8859_1)
+			if err != nil {
+				log.Fatalf("./etcd-"+env+".properties==>%#v", err)
+			}
 		}
 		if props.Len() > 0 {
 			endpoints := props.GetString("etcd.endpoints", "")

@@ -16,7 +16,7 @@ type ConfigBase struct {
 func (c *ConfigBase) GetEtcdEndpoints(env string) []string {
 	endpointsConfig := os.Getenv("etcd.endpoints")
 	if endpointsConfig == "" {
-		props, err := properties.LoadFile("./etcd-"+env+".properties", properties.ISO_8859_1)
+		props, err := properties.LoadFile("./etc/etcd-"+env+".properties", properties.ISO_8859_1)
 		if err == nil {
 			endpoints := props.GetString("etcd.endpoints", "")
 			return strings.Split(endpoints, ";")

@@ -4,6 +4,7 @@ import (
 	"github.com/magiconair/properties"
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/viper"
+	_ "github.com/spf13/viper/remote"
 	"log"
 	"os"
 	"strings"
